@@ -32,7 +32,7 @@ To start the game, you have to run the 'p1' script which includes all the functi
 
 ##### Algorithm. (Project 1)
 
-+++
+***
 
 Input:  'Road width' w ; 'Red light duration' r ; 'Orange light duration' o; 'Green light duration' g; 'Possibility of breaking traffic rules' p; 'Total number of cars' number; 'Frame per second' fps;
 
@@ -50,7 +50,7 @@ Output:  An animation;
 10. Erase all figure and go back to step 4. 
 11. Display the plates of the cars that breaks the traffic rule.
 
-+++
+***
 
 #### How to use
 
@@ -60,7 +60,7 @@ The user inputs "automatic"  to enter automatic mode and enter 1, 2 or 3 to sele
 
 ##### Algorithm. (Random permutations.a)
 
-+++
+***
 
 Input:  a set of elements; integer l ; 
 
@@ -70,8 +70,7 @@ Output:  their permutations;
 
 ##### Algorithm. (Random permutations.b)
 
-+++
-
+***
 Input:  a set of elements; integer l ; 
 
 Output:  a random subset of all the permutations containing n elements.
