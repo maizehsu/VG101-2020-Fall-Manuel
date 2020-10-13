@@ -87,8 +87,7 @@ Output:  a random subset of all the permutations containing n elements.
 
 #### Bug Section
 
-I haven't discovered any bug during operation. However, there are some potential problems. The whole animation gets a bit slow when both the number of cars (higher than 15) and fps (higher than 6) are set at a high level. Besides, there is a chance in a million that two car plates might be the same,  however the chances are too little that we may as well just ignore it. In fact, the player is more likely to lose in this game if the number of cars goes up
-
+I haven't discovered any bug during operation. However, there are some potential problems. The whole animation gets a bit slow when both the number of cars (higher than 15) and fps (higher than 6) are set at a high level. In fact, the player is more likely to lose in this game if the number of cars goes up. Besides, there is a chance in a million that two car plates might be the same,  however the chances are too little that we may as well just ignore it.
 #### Afterthought
 
 - Self learning is really helpful.
