@@ -4,17 +4,20 @@ axis([-15 15 -15 15]);
 switch cdirection(i)
        case 'w'
             cposition = (1/2)*(xw{i}(2)+xw{i}(3));
-            xw{i} = xw{i} +(1/fps);
+            xw{i} = xw{i} + (1/fps);
             yw{i} = [(1/2)*(w-csize(i)) (1/2)*(w-csize(i))...
                      (1/2)*(w-csize(i))+csize(i) (1/2)*(w-csize(i))+csize(i)];
+            % Judge whether a car has passed the crossroad
             if cposition > -w
                 pass(i) = 1;                     
             else
                 pass(i) = 0;
             end
             if pass(i) == 0
+                % Judge whether a car should stop
                 if stopw == 0
                     if cposition >= -w-0.1 & cposition <= -w+0.1 & status == 'green'
+                        % A posibiity where a car breaks the traffic rule
                         if rand < p
                            bad(i) = 1; 
                            stopw = 0;
@@ -36,6 +39,7 @@ switch cdirection(i)
             end
             Zx{i} = xw{i}; 
             Zy{i} = yw{i};
+            % Plot the cars
             X = [xw{i} xw{i}(1)];
             Y = [yw{i} yw{i}(1)];
             plot(X,Y,'k-','linewidth',2);
