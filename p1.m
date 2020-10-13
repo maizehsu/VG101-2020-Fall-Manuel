@@ -38,13 +38,14 @@ crossroad(w,status);
 for i = 1:number
     direction = ['w' 'e' 'n' 's'];
     cdirection(i) = direction(randi([1 4]));
-    cplate{i} = plate(i);
+    cplate{i} = plates(0,[]); % Assign a unique plate for each car
     switch cdirection(i)
            case 'w'
-                wnumber = wnumber+1;
-                csumw = csumw+clength(i);
+                wnumber = wnumber+1; % Calculate the total number of cars coming from west
+                csumw = csumw+clength(i); % Calculate the total length of cars coming from west
+                % Calculate the exact coordinate of each car
                 xw{i} = [-15-csumw-(wnumber-1) -15+clength(i)-csumw-(wnumber-1)...
-                    -15+clength(i)-csumw-(wnumber-1) -15-csumw-(wnumber-1)];
+                    -15+clength(i)-csumw-(wnumber-1) -15-csumw-(wnumber-1)]; 
                 yw{i} = [(1/2)*(w-csize(i)) (1/2)*(w-csize(i))...
                          (1/2)*(w-csize(i))+csize(i) (1/2)*(w-csize(i))+csize(i)];
                 Zx{i} = xw{i}; 
@@ -80,7 +81,8 @@ for i = 1:number
 end
 % Main loop
  for t = 1:1/fps:loops
-     traffic_light;
+     traffic_light; % Plot the traffic lights
+     % Judge whether a crash takes place
      for i = 1:number
          move;
          pit = polyshape(Zx{i},Zy{i});
@@ -91,6 +93,7 @@ end
          disp('Crash! You fail!');
          break
      end
+     % Judge whether all cars passed the crossroad safely
      for i =1:number
         switch cdirection(i)
            case 'w'
@@ -108,12 +111,13 @@ end
            disp('Congratulations! You win!');
            break
      end
+     % pause, initialize and be prepared for the next loop
      pause(1/fps); 
      polyvec = [];
      clf
      crossroad(w,status);
 end      
- % Display the plate of cars that violate traffic rules
+ % Display the plates of cars that violate traffic rules
  if bad == 0
     disp('No cars breaking rule');
  else
