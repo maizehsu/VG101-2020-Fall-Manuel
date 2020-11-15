@@ -1,106 +1,111 @@
-# README for Project1
+# Onecard
 
-### Contributor： Mai Xu
+Author: Mai Xu
 
-### Directory
+Course: VG101 2020 Fall
 
-- Overview
+Language: C
 
-- How to use
+***
 
-- Ex.2
+### Introductions
 
-- Notice
+1. What is ONECARD?
 
-- Bug section
+   - One Card is a game played by n persons over a pre-decided number of rounds r, much like uno. A total of d decks of Poker cards, excluding Jokers, are shuffled and c cards are offered to each player. As the game starts each player, following the defined order, plays cards **either following the rank or the suit** defined by the previous card (Notice that each player can play up to **two cards**). Any played cards directly goes into the discard pile, and anyone who is unable to play should **draw a card** from the top of the stock pile. As soon as a player has discarded all his cards the game stops and the player wins this round. At the end of the r rounds the final score of each player is determined by summing up of all his penalties. The person with highest score wins.
 
-- Afterthought
+2. How to play ONECARD?
 
-  ------
+   - General Rules: 
 
-#### Overview
+     •Attack:
+     – Cards with rank 2: the next player draws two cards from the stock pile;
+     – Cards with rank 3: the next player draws three cards from the stock pile;
+     • Defense:
+     – Cards with rank 7: cancel an attack, i.e. do not draw any card if a 2 or a 3 was played before;
+     • Direction:
+     – Queen cards: reverse the playing order from counter-clockwise to clockwise or clockwise to counterclockwise;
+     – Jack cards: skip the next player;
 
-For this project, I created three functions and three scripts, namely 'initialize.m', 'plate.m' , 'crossroad.m', and 'p1.m', 'traffic_light.m', 'move.m'.
+   - Tips:
 
-- The 'initialize' function initializes all the required parameters and provides user with three game modes.
-- The 'plate' function randomly generates a plate for each car.
-- The 'crossroad' function plots the crossroad.
-- The 'traffic_light' script controls the alternation of red, yellow and green light.
-- The 'move' script contains everything concerning car movement.
+     - Each player can play up to two cards, with cards' special effect accumulated. For example, if you play Heart 2 as well as Heart 3, the next player will have to draw 5 cards if he doesn't have respective defense cards. Also if you play Spades Queen along with Spades 3, you will redirect your attack to the previous player. Other magical combinations include double Jack, where you can directly jump the next three player, or double Queen, which literally has no effect at all.  Notice that if you play cards with rank 2 or 3 in the first round, you will enter attack mode and regular cards with same suit cannot be played in the second round. 
+     - You can always choose to jump your round and draw a card instead.
 
-To start the game, you have to run the 'p1' script which includes all the functions and scripts above and generates the animation. Here let me briefly explain the whole process with a simple algorithm.
+***
 
-##### Algorithm. (Project 1)
+### General description:
 
-------
+1. To compile, please input command `gcc main.c card.c player.c action.c display.c -o onecard `.
+2. After compiling, enter manual mode by simply input `onecard` in your terminal. To enter auto mode, input `onecard -a` or `onecard --auto`.
+3. The parameters in the project can only be adjusted through terminal. Note that the game will perform in default parameters if no adjustment is applied. Refer to `onecard -h` or `onecard --help` for detailed information. 
+4. Details of the game process are dumped into a log file called "onecard.log". Feel free to personalize the file name through command `onecard --log`.
+5. Of course you can always enter the game by simply double click 'onecard.exe'.
 
-Input: 'Road width' w ; 'Red light duration' r ; 'Orange light duration' o; 'Green light duration' g; 'Possibility of breaking traffic rules' p; 'Total number of cars' number; 'Frame per second' fps;
+***
 
-Output: An animation;
+### Documents
 
-1. The user either manually input all parameters by themselves (suggested values are provided in Notice) or choose automatic mode and select difficulty level rated from 1 to 3, with 1 the most easy one. ;
-2. The system randomly generates car plates, colors, lengths and widths and store them into multiple cell arrays.
-3. Then the cars are distributed into four directions and the system calculates its initial coordinates.
-4. The main loop starts here. First we plot the crossroad and traffic lights. The traffic lights alternate its color by the time interval set by the user.
-5. Then plot the cars. Each car moves forward by 1/fps unit.
-6. Judge if any of the cars reaches the crossroad and encounters a red light. If so, stop. However, there is a possibility that it might ignore and move forward anyway.
-7. Judge if any of the cars crash into each other, if so, jump out of the loop and the game ends with the user losing the game. If not, continue.
-8. Judge if all of the cars have passed the crossroad safely, if so, jump out of the loop and the game ends with the user winning the game. If not, continue.
-9. Pause for 1/fps second.
-10. Erase all figure and go back to step 4.
-11. Display the plates of the cars that breaks the traffic rule.
+- README.md
+- Changelog.md
+- Project2
+  - CMakeLists.txt
+  - main.c
+  - card.c
+  - card.h
+  - player.c
+  - player.h
+  - display.c
+  - display.h
+  - action.c
+  - action.h
+- onecard.exe
 
-------
+***
 
-#### How to use
+### How it works
 
-The user inputs "automatic" to enter automatic mode and enter 1, 2 or 3 to select three difficulty levels. The user inputs 'manual' and define all parameters by themselves.
+- Functions and Structures used:
 
-#### Ex.2
+  1.  card.c and card.h
 
-##### Algorithm. (Random permutations.a)
+     - `struct CARD`: Define a structure for a card with properties rank and suit;
 
-------
+     - `initial_card`: Generate random DECK piles of cards;
+     - `randomize`:  Randomize an array of CARD.
 
-Input: a set of elements s; integer l ; function set
+  2.  player.c and player.h
 
-Output: their permutations perm
+     - `struct PLAYER`: Define a structure for a players with properties id, score, card, length and two pointers, one pointing to the previous player, one pointing to the next;
+     - `initlist`: Generate a chain array for USER players with DEFAULT cards and respective id, score, etc;
+     - `sequence`: Decide the sequence of the players;
+     - `deal`: Deal respective cards to each player;
+     - `free_player`: Free memory used.
 
-1. The user input a a set of elements and an integer l ;
-2. If l equals 1, perm equals s;
-3. If l exceeds 1, for i = length(perm(s,l-1)), for j = 1:length(j), set(s,n) = [perm(s,n-1),s(j)]
-4. Output perm
+  3. display.c and display.h
 
-##### Algorithm. (Random permutations.b)
+     - `welcome`: Print welcome message;
+     - `status`: Show status for human player;
+     - `display`: Display the information of a card;
+     - `show_status`: Show status of each player in auto mode.
+     - `show_action1`: Show action of each player in  the first round;
+     - `show_action2`: Show action of each player in  the second round;
+     - `win`: Show the winning status;
+     - `scoreboard`: Print the result of the game in each round;
+     - ascii art:
+       - `asciiart`: Draw a set of cards in ascii art;
+       - `asciiart_demo`: Draw a single card in ascii art.
+     
+  4. action.c and action.h
 
-------
+     - `initialize`: Scan values of variables from command line;
+     - `play`: Judge and play a card, a.k.a removing a certain card from the player's card pile;
+     - `effect`: Show effect passed on the next player;
+     - `pass`: Move to the next player;
+     - `take`: Take one card from the original card pile to the player's card pile;
+     - `sort`: Sort cards in a pre-decided sequence;
+     - `discard`: Return the played cards to the original pile then shuffle.
 
-Input: a set of elements; integer l ; function plates
 
-Output: a random subset of all the permutations containing n elements.
+***
 
-1. The user input a set of elements and an integer l.
-2. Here let l be 0, n be 5. If l equals five, add a random alphabet character to the plate.
-3. If l is less than 5, let i be l+1, add a random number or alphabet character on the left of plate.
-4. Let plate be plates(i,plate).
-5. Output plate.
-
-#### Notice
-
-- The user should input integers if he/she choose to decide parameters manually.
-- Input car numbers should be less than 20 in order to prevent slow animation.
-- Road width should be less than 5 to make the animation clear and easy to read.
-- Traffic light intervals for red and green are suggested to be higher than 20 if the user wants to win this game.
-- Default fps is 6.
-
-#### Bug Section
-
-I haven't discovered any bug during operation. However, there are some potential problems. The whole animation gets a bit slow when both the number of cars (higher than 15) and fps (higher than 6) are set at a high level. Besides, there is a chance in a million that two car plates might be the same, however the chances are too little that we may as well just ignore it. In fact, the player is more likely to lose in this game if the number of cars goes up.
-
-#### Afterthought
-
-- Self learning is really helpful.
-- When encountering long lines of repeated code, it's wise to put them in one line in order to make debug process easier.
-- To make the main script more concise, separate them into several functions and scripts.
-- Cell array is a useful way to store data.
-- Make calculations as simple as possible, or the whole animation would get so slow that you might want to smash your computer.
